@@ -21,7 +21,7 @@ public class HomeController {
 
     @RequestMapping("/Index")
     public String Index() {
-        String cell="04QCE83H24600JD3S0005485";
+        String cell="04QCE83H24600JD3S0005485";//cell
         String cell_1="";
         System.out.println(cell.substring(7));
         System.out.println(cell.substring(0,7));
