@@ -5,6 +5,7 @@ import com.example.demo.toolkits.AESUtil;
 import com.example.demo.toolkits.RsaUtil;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,12 @@ public class HomeController {
 
     @RequestMapping("/Index")
     public String Index() {
+        String cell="04QCE83H24600JD3S0005485";
+        String cell_1="";
+        System.out.println(cell.substring(7));
+        System.out.println(cell.substring(0,7));
+
+
         return "Home->Index";
     }
 
@@ -34,8 +41,9 @@ public class HomeController {
         return "Home->Test:password-->" + rsaPassword;
     }
 
-    @RequestMapping("/GetBMWData")
-    public String GetBMWData(int num) throws Exception {
+    @RequestMapping("/GetBMWData/{num}")
+//    public String GetBMWData(int num) throws Exception {
+    public String GetBMWData(@PathVariable("num") Long num) throws Exception {
         String client_key = "WCrXK7osgDygQ2h7A5Bj0c82XS3VH6XduP/FokGjnDU=";
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
 
