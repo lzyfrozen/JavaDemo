@@ -15,17 +15,17 @@ import java.io.FileReader;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class HomeController {
 
     @RequestMapping("/Index")
     public String Index() {
-        String cell="04QCE83H24600JD3S0005485";//cell
-        String cell_1="";
+        String cell = "04QCE83H24600JD3S0005485";// cell
+        String cell_1 = "";
         System.out.println(cell.substring(7));
-        System.out.println(cell.substring(0,7));
-
+        System.out.println(cell.substring(0, 7));
 
         return "Home->Index";
     }
@@ -42,7 +42,7 @@ public class HomeController {
     }
 
     @RequestMapping("/GetBMWData/{num}")
-//    public String GetBMWData(int num) throws Exception {
+    // public String GetBMWData(int num) throws Exception {
     public String GetBMWData(@PathVariable("num") Long num) throws Exception {
         String client_key = "WCrXK7osgDygQ2h7A5Bj0c82XS3VH6XduP/FokGjnDU=";
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
@@ -54,17 +54,18 @@ public class HomeController {
         ObjectMapper mapper = new ObjectMapper();
         JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, Ocv.class);
         List<Ocv> List = mapper.readValue(file, javaType);
+        List = List.stream().distinct().collect(Collectors.toList());
 
         String result = mapper.writeValueAsString(List);
         String data_new = AESUtil.encrypt(result, client_secret);
 
         long timestamp1 = System.currentTimeMillis();
-//        System.out.println("当前时间戳: " + timestamp1);
+        // System.out.println("当前时间戳: " + timestamp1);
 
         return "Home->GetBMWData:" + timestamp1 + "," +
                 "文件名:" + file.getName() + "," +
                 "Json长度:" + List.size() + "," +
-                "加密-->" + data_new;
+                "加密-->\r\n" + data_new;
     }
 
     @RequestMapping("/Test3_2")
@@ -79,7 +80,7 @@ public class HomeController {
         String line;
         while ((line = br.readLine()) != null) {
             sb.append(line);
-//            System.out.println(line);
+            // System.out.println(line);
         }
 
         String data_new = AESUtil.decrypt(sb.toString(), client_secret);
