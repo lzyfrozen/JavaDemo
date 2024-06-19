@@ -131,7 +131,8 @@ public class HomeController {
     public String GetBMWToken() throws Exception {
         String client_key = "WCrXK7osgDygQ2h7A5Bj0c82XS3VH6XduP/FokGjnDU=";
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
-        String password = "{\"clientKey\":\"" + client_key + "\",\"account\":\"1\",\"timestamp\":\"1697618076253\"}";
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String password = "{\"clientKey\":\"" + client_key + "\",\"account\":\"1\",\"timestamp\":\"" + timestamp + "\"}";
 
         String rsaPassword = AESUtil.encrypt(password, client_secret);
 
