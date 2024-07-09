@@ -166,8 +166,8 @@ public class HomeController {
                 "加密-->\r\n" + data_new;
     }
 
-    @RequestMapping("/Test3_2/{num}")
-    public String Test3_2(@PathVariable("num") Long num) throws Exception {
+    @RequestMapping("/JieMa/{num}")
+    public String JieMa(@PathVariable("num") Long num) throws Exception {
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
 
         String currentDir = System.getProperty("user.dir");
