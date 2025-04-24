@@ -146,12 +146,18 @@ public class HomeController {
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
 
         String data = "";
-        String currentDir = System.getProperty("user.dir");
-        File file = new File(currentDir + "\\src\\main\\resources\\ocvdata\\ocvdata_" + num + ".json");
+//        String currentDir = System.getProperty("user.dir");
+//        File file = new File(currentDir + "\\src\\main\\resources\\ocvdata\\ocvdata_" + num + ".json");
+        String resourcePath = "ocvdata/ocvdata_" + num + ".json";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new FileNotFoundException("资源文件未找到: " + resourcePath);
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, Ocv.class);
-        List<Ocv> List = mapper.readValue(file, javaType);
+//        List<Ocv> List = mapper.readValue(file, javaType);
+        List<Ocv> List = mapper.readValue(inputStream, javaType);
         List = List.stream().distinct().collect(Collectors.toList());
 
         String result = mapper.writeValueAsString(List);
@@ -161,7 +167,8 @@ public class HomeController {
         // System.out.println("当前时间戳: " + timestamp1);
 
         return "Home->GetBMWData:" + timestamp1 + "," +
-                "文件名:" + file.getName() + "," +
+//                "文件名:" + file.getName() + "," +
+                "文件名:" + resourcePath + "," +
                 "Json长度:" + List.size() + "," +
                 "加密-->\r\n" + data_new;
     }
@@ -170,11 +177,17 @@ public class HomeController {
     public String JieMa(@PathVariable("num") Long num) throws Exception {
         String client_secret = "MzsAJvgneLJh5T4hcEsfWr+S5Xdtj3nx2eHOcPaQmgs=";
 
-        String currentDir = System.getProperty("user.dir");
-        File file = new File(currentDir + "\\src\\main\\resources\\data\\data_" + num + ".txt");
+//        String currentDir = System.getProperty("user.dir");
+//        File file = new File(currentDir + "\\src\\main\\resources\\data\\data_" + num + ".txt");
+        String resourcePath = "data/data_" + num + ".txt";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new FileNotFoundException("资源文件未找到: " + resourcePath);
+        }
 
         StringBuffer sb = new StringBuffer();
-        BufferedReader br = new BufferedReader(new FileReader(file));
+//        BufferedReader br = new BufferedReader(new FileReader(file));
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         String line;
         while ((line = br.readLine()) != null) {
             sb.append(line);
